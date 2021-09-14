@@ -35,6 +35,7 @@
 #include "wlan_nan_api.h"
 #include "nan_public_structs.h"
 #include "wlan_reg_services_api.h"
+#include "wlan_mlme_vdev_mgr_interface.h"
 
 /* invalid channel id. */
 #define INVALID_CHANNEL_ID 0
@@ -1386,15 +1387,12 @@ QDF_STATUS policy_mgr_check_conn_with_mode_and_vdev_id(
 	return qdf_status;
 }
 
-void policy_mgr_soc_set_dual_mac_cfg_cb(struct wlan_objmgr_psoc *psoc,
-					enum set_hw_mode_status status,
-					uint32_t scan_config,
-					uint32_t fw_mode_config)
+void policy_mgr_soc_set_dual_mac_cfg_cb(enum set_hw_mode_status status,
+		uint32_t scan_config,
+		uint32_t fw_mode_config)
 {
 	policy_mgr_debug("Status:%d for scan_config:%x fw_mode_config:%x",
 			 status, scan_config, fw_mode_config);
-
-	policy_mgr_dual_mac_configuration_complete(psoc);
 }
 
 void policy_mgr_set_dual_mac_scan_config(struct wlan_objmgr_psoc *psoc,
@@ -2162,14 +2160,19 @@ static bool policy_mgr_is_sub_20_mhz_enabled(struct wlan_objmgr_psoc *psoc)
 static bool policy_mgr_check_privacy_for_new_conn(
 	struct policy_mgr_psoc_priv_obj *pm_ctx)
 {
-	if (!pm_ctx->hdd_cbacks.hdd_wapi_security_sta_exist)
-		return true;
+	struct wlan_objmgr_pdev *pdev = pm_ctx->pdev;
 
-	if (pm_ctx->hdd_cbacks.hdd_wapi_security_sta_exist() &&
-	    (policy_mgr_get_connection_count(pm_ctx->psoc) > 0))
+	if (!pdev) {
+		policy_mgr_debug("pdev is Null");
+		return true;
+	}
+
+	if (mlme_is_wapi_sta_active(pdev) &&
+	    policy_mgr_get_connection_count(pm_ctx->psoc) > 0)
 		return false;
 
 	return true;
+
 }
 
 #ifdef FEATURE_FOURTH_CONNECTION
