@@ -772,7 +772,6 @@ static void init_work_routine(struct work_struct *work)
 {
 	struct tas2562_priv *p_tas2562 =
 		container_of(work, struct tas2562_priv, init_work.work);
-	int nResult = 0;
 	//int irqreg;
 	//dev_info(p_tas2562->dev, "%s\n", __func__);
 #ifdef CONFIG_TAS2562_CODEC
@@ -784,9 +783,9 @@ static void init_work_routine(struct work_struct *work)
 		TAS2562_POWERCONTROL_OPERATIONALMODE10_ACTIVE);
 
 	//dev_info(p_tas2562->dev, "set ICN to -80dB\n");
-	nResult = p_tas2562->bulk_write(p_tas2562, channel_both, TAS2562_ICN_REG, p_icn, 4);
+	p_tas2562->bulk_write(p_tas2562, channel_both, TAS2562_ICN_REG, p_icn, 4);
 
-	nResult = gpio_get_value(p_tas2562->mn_irq_gpio);
+	gpio_get_value(p_tas2562->mn_irq_gpio);
 	//dev_info(p_tas2562->dev, "%s, irq GPIO state: %d\n", __func__, nResult);
 
 #ifdef CONFIG_TAS2562_CODEC
