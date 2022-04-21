@@ -857,7 +857,6 @@ ret:
 int tas2562_set_fmt(struct tas2562_priv *p_tas2562, unsigned int fmt)
 {
 	u8 tdm_rx_start_slot = 0, asi_cfg_1 = 0;
-	int ret = 0;
 
 	switch (fmt & SND_SOC_DAIFMT_MASTER_MASK) {
 	case SND_SOC_DAIFMT_CBS_CFS:
@@ -865,7 +864,6 @@ int tas2562_set_fmt(struct tas2562_priv *p_tas2562, unsigned int fmt)
 		break;
 	default:
 		dev_err(p_tas2562->dev, "ASI format master is not found\n");
-		ret = -EINVAL;
 	}
 
 	switch (fmt & SND_SOC_DAIFMT_INV_MASK) {
@@ -879,7 +877,6 @@ int tas2562_set_fmt(struct tas2562_priv *p_tas2562, unsigned int fmt)
 		break;
 	default:
 		dev_err(p_tas2562->dev, "ASI format Inverse is not found\n");
-		ret = -EINVAL;
 	}
 
 	p_tas2562->update_bits(p_tas2562, channel_both,
@@ -900,7 +897,6 @@ int tas2562_set_fmt(struct tas2562_priv *p_tas2562, unsigned int fmt)
 		break;
 	default:
 	dev_err(p_tas2562->dev, "DAI Format is not found, fmt=0x%x\n", fmt);
-	ret = -EINVAL;
 		break;
 	}
 
