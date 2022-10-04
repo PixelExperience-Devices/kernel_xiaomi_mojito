@@ -74,9 +74,6 @@
 #if LCT_TP_GRIP_AREA_EN
 #include "../lct_tp_grip_area.h"
 #endif
-#ifdef CONFIG_TOUCHSCREEN_XIAOMI_TOUCHFEATURE
-#include "../xiaomi/xiaomi_touch.h"
-#endif
 #ifdef CONFIG_PM
 #include <linux/pm_runtime.h>
 #endif
@@ -236,11 +233,6 @@ struct fts_ts_data {
     struct early_suspend early_suspend;
 #endif
 
-#ifdef CONFIG_TOUCHSCREEN_XIAOMI_TOUCHFEATURE
-    u8 palm_sensor_switch;
-    bool palm_sensor_changed;
-    bool gamemode_enabled;
-#endif
 	struct mutex reg_lock;
 	struct device *fts_touch_dev;
 	struct class *fts_tp_class;

@@ -12,7 +12,6 @@ obj-$(CONFIG_TOUCHSCREEN_COMMON)             += lct_tp_selftest.o
 obj-$(CONFIG_TOUCHSCREEN_COMMON)             += lct_tp_gesture.o
 obj-$(CONFIG_TOUCHSCREEN_COMMON)             += lct_tp_palm.o
 obj-$(CONFIG_TOUCHSCREEN_COMMON)             += lct_tp_grip_area.o
-obj-$(CONFIG_TOUCHSCREEN_COMMON)             += xiaomi/
 obj-$(CONFIG_TOUCHSCREEN_FT3418_I2C)         += ft3418_i2c/
 obj-$(CONFIG_TOUCHSCREEN_PROPERTIES)	+= of_touchscreen.o
 obj-$(CONFIG_TOUCHSCREEN_88PM860X)	+= 88pm860x-ts.o
